@@ -1,5 +1,7 @@
 package br.com.totustuus.alurafood.validator;
 
+import android.util.Log;
+
 import com.google.android.material.textfield.TextInputLayout;
 
 public class ValidacaoPadrao {
@@ -20,7 +22,6 @@ public class ValidacaoPadrao {
             textInputLayout.setError("Campo obrigatório");
             return false;
         }
-
         removeErroEditText();
         return true;
     }

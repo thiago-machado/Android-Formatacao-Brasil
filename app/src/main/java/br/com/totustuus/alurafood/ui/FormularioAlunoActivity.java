@@ -11,6 +11,8 @@ import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.totustuus.alurafood.R;
 import br.com.totustuus.alurafood.validator.ValidaCPF;
+import br.com.totustuus.alurafood.validator.ValidaEmail;
+import br.com.totustuus.alurafood.validator.ValidaTelefone;
 import br.com.totustuus.alurafood.validator.ValidacaoPadrao;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
@@ -23,7 +25,43 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         TextInputLayout textInputNome = findViewById(R.id.formulario_cadastro_campo_nome_completo);
         adicionaValidacaoPadrao(textInputNome);
 
+        validacaoCampoCPF();
 
+        TextInputLayout textInputEmail = findViewById(R.id.formulario_cadastro_campo_email);
+        EditText campoEmail = textInputEmail.getEditText();
+        campoEmail.setOnFocusChangeListener((view, hasFocus) -> {
+            if(!hasFocus) {
+                final ValidaEmail validaEmail = new ValidaEmail(textInputEmail);
+                validaEmail.isValido();
+            }
+        });
+
+
+        validaCampoTelefone();
+
+
+        TextInputLayout textInputSenha = findViewById(R.id.formulario_cadastro_campo_senha);
+        adicionaValidacaoPadrao(textInputSenha);
+
+    }
+
+    private void validaCampoTelefone() {
+        TextInputLayout textInputTel = findViewById(R.id.formulario_cadastro_campo_telefone);
+        EditText campoTel = textInputTel.getEditText();
+        campoTel.setOnFocusChangeListener((view, hasFocus) -> {
+            ValidaTelefone validaTelefone = new ValidaTelefone(textInputTel);
+
+            if(!hasFocus) {
+                validaTelefone.isValido();
+            } else {
+                String conteudo = campoTel.getText().toString();
+                conteudo = conteudo.replace("(", "").replace(") ", "").replace("-", "");
+                campoTel.setText(conteudo);
+            }
+        });
+    }
+
+    private void validacaoCampoCPF() {
         TextInputLayout textInputCPF = findViewById(R.id.formulario_cadastro_campo_cpf);
         EditText campoCPF = textInputCPF.getEditText();
         campoCPF.setOnFocusChangeListener((view, hasFocus) -> {
@@ -43,16 +81,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
                 }
             }
         });
-
-        TextInputLayout textInputEmail = findViewById(R.id.formulario_cadastro_campo_email);
-        adicionaValidacaoPadrao(textInputEmail);
-
-        TextInputLayout textInputTel = findViewById(R.id.formulario_cadastro_campo_telefone);
-        adicionaValidacaoPadrao(textInputTel);
-
-        TextInputLayout textInputSenha = findViewById(R.id.formulario_cadastro_campo_senha);
-        adicionaValidacaoPadrao(textInputSenha);
-
     }
 
     private void adicionaValidacaoPadrao(TextInputLayout textInputLayout) {
