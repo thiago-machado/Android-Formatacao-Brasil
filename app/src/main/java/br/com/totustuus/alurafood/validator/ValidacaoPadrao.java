@@ -1,17 +1,14 @@
 package br.com.totustuus.alurafood.validator;
 
-import android.util.Log;
-
 import com.google.android.material.textfield.TextInputLayout;
 
-public class ValidacaoPadrao {
+public class ValidacaoPadrao implements Validador {
 
     private final TextInputLayout textInputLayout;
-    private final String conteudo;
+    private String conteudo;
 
     public ValidacaoPadrao(TextInputLayout textInputLayout) {
         this.textInputLayout = textInputLayout;
-        this.conteudo = textInputLayout.getEditText().getText().toString();
     }
 
     /*
@@ -31,7 +28,9 @@ public class ValidacaoPadrao {
         textInputLayout.setErrorEnabled(false);
     }
 
-    public boolean isConteudoValido() {
+    @Override
+    public boolean isValido() {
+        this.conteudo = textInputLayout.getEditText().getText().toString();
         return isCampoObrigatorioOK();
     }
 }

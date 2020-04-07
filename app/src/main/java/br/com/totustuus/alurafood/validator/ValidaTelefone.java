@@ -2,7 +2,7 @@ package br.com.totustuus.alurafood.validator;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class ValidaTelefone {
+public class ValidaTelefone implements Validador {
 
     private final TextInputLayout textInputLayout;
     private String conteudo;
@@ -10,7 +10,6 @@ public class ValidaTelefone {
 
     public ValidaTelefone(TextInputLayout textInputLayout) {
         this.textInputLayout = textInputLayout;
-        this.conteudo = textInputLayout.getEditText().getText().toString();
         this.validacaoPadrao = new ValidacaoPadrao(textInputLayout);
     }
 
@@ -24,8 +23,10 @@ public class ValidaTelefone {
 
     public boolean isValido() {
 
+        conteudo = textInputLayout.getEditText().getText().toString();
+        conteudo = conteudo.replace("(", "").replace(") ", "").replace("-", "");
 
-        if(!validacaoPadrao.isConteudoValido()) return false;
+        if(!validacaoPadrao.isValido()) return false;
         if(!hasTelefoneDezOnzeDigitos()) return false;
 
         adicionarFormatacao();

@@ -5,7 +5,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 
-public class ValidaCPF {
+public class ValidaCPF implements Validador {
 
     private final TextInputLayout textInputLayout;
     private String conteudo;
@@ -14,7 +14,6 @@ public class ValidaCPF {
 
     public ValidaCPF(TextInputLayout textInputLayout) {
         this.textInputLayout = textInputLayout;
-        this.conteudo = textInputLayout.getEditText().getText().toString();
         this.validacaoPadrao = new ValidacaoPadrao(textInputLayout);
     }
 
@@ -38,10 +37,17 @@ public class ValidaCPF {
         return false;
     }
 
+    @Override
     public boolean isValido() {
 
+        conteudo = textInputLayout.getEditText().getText().toString();
+        try {
+            conteudo = cpfFormatter.unformat(conteudo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-        if(!validacaoPadrao.isConteudoValido()) return false;
+        if(!validacaoPadrao.isValido()) return false;
         if(!hasCPFOnzeDigitos()) return false;
         if(!isCPFValido()) return false;
 

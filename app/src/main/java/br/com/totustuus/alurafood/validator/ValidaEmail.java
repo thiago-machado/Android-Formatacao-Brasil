@@ -2,7 +2,7 @@ package br.com.totustuus.alurafood.validator;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class ValidaEmail {
+public class ValidaEmail implements Validador {
 
     private final TextInputLayout textInputLayout;
     private String conteudo;
@@ -10,7 +10,6 @@ public class ValidaEmail {
 
     public ValidaEmail(TextInputLayout textInputLayout) {
         this.textInputLayout = textInputLayout;
-        this.conteudo = textInputLayout.getEditText().getText().toString();
         this.validacaoPadrao = new ValidacaoPadrao(textInputLayout);
     }
 
@@ -22,8 +21,10 @@ public class ValidaEmail {
         return false;
     }
 
+    @Override
     public boolean isValido() {
-        if(!validacaoPadrao.isConteudoValido()) return false;
+        this.conteudo = textInputLayout.getEditText().getText().toString();
+        if(!validacaoPadrao.isValido()) return false;
         if(!isEmailValido()) return false;
 
         return true;
